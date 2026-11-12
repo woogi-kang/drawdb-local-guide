@@ -1,0 +1,17 @@
+server {
+    listen 80;
+    server_name _;
+    root /usr/share/nginx/html;
+
+    # drawDB 런타임 설정 (공유 백엔드 등, 비워두면 로컬 전용)
+    location = /config.js {
+        default_type application/javascript;
+        add_header Cache-Control "no-store";
+        return 200 "window.__DRAWDB_CONFIG__ = { backendUrl: \"${VITE_BACKEND_URL}\", gistBackendUrl: \"${VITE_GIST_BACKEND_URL}\" };";
+    }
+
+    # SPA 라우팅 (/editor 등 새로고침 대응)
+    location / {
+        try_files $uri /index.html;
+    }
+}

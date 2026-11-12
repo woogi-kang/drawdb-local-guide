@@ -36,12 +36,12 @@ http://localhost:5173 에 접속해서 화면이 뜨면 성공입니다.
 
 ```bash
 npm run build
-cd ..
+cd ..   # drawdb-local-guide 폴더로 돌아오기
 ```
 
 ## 3. Docker로 실행
 
-[Docker Desktop](https://www.docker.com/products/docker-desktop/)을 실행한 상태에서:
+[Docker Desktop](https://www.docker.com/products/docker-desktop/)을 실행한 상태에서, `compose.yml`이 있는 **`drawdb-local-guide` 폴더**에서 실행합니다. (`drawdb` 폴더 안이 아닙니다)
 
 ```bash
 docker compose up -d --build

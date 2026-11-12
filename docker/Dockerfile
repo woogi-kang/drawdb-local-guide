@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # drawDB 정적 파일(drawdb/dist)을 nginx:latest 로 서빙
 #
-# 1단계(npm)에서 `npm run build` 로 만든 dist 를 그대로 복사합니다.
+# README 2단계에서 `npm run build` 로 만든 dist 를 그대로 복사합니다.
 # 컨테이너 안에서 다시 빌드하지 않는 이유:
 #   drawDB(vite 8 / rolldown) 빌드는 순간 메모리를 ~2GB 쓰기 때문에
 #   Docker Desktop 기본 메모리(2GB)에서는 OOM 으로 실패합니다.

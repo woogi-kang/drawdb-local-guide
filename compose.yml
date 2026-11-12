@@ -7,7 +7,6 @@ services:
     container_name: drawdb
     ports:
       - "8080:80"
-    restart: unless-stopped
 
   postgres:
     image: postgres:latest
@@ -17,19 +16,9 @@ services:
       POSTGRES_PASSWORD: shop
       POSTGRES_DB: shop
     ports:
-      # 호스트에 이미 5432 를 쓰는 Postgres 가 있을 수 있어 15432 로 노출
       - "15432:5432"
     volumes:
-      # 최초 기동 시 seed/*.sql 이 이름 순서대로 실행됨
-      - ./seed:/docker-entrypoint-initdb.d:ro
-      # postgres 18+ 는 /var/lib/postgresql 을 마운트 포인트로 사용
       - pgdata:/var/lib/postgresql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U shop -d shop"]
-      interval: 5s
-      timeout: 3s
-      retries: 10
-    restart: unless-stopped
 
 volumes:
   pgdata:

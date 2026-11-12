@@ -48,38 +48,43 @@ docker compose up -d --build
 ```
 
 - drawDB (`nginx:latest`): http://localhost:8080
-- Postgres (`postgres:latest`): `localhost:15432`
+- Postgres (`postgres:latest`): `localhost:5432`
 
 ## 4. Postgres 연결
 
 | 항목 | 값 |
 | --- | --- |
 | Host | `localhost` |
-| Port | `15432` |
-| Database / User / Password | `shop` / `shop` / `shop` |
+| Port | `5432` |
+| Database | `shopping` |
+| User | `root` |
+| Password | `admin1234` |
 
-DBeaver·TablePlus 같은 GUI 도구에서 위 정보로 접속하거나, 터미널에서 바로 접속합니다.
+psql 터미널로 접속합니다. 5단계 명령은 모두 이 터미널에서 입력합니다.
 
 ```bash
-docker exec -it drawdb-postgres psql -U shop -d shop
+docker exec -it drawdb-postgres psql -U root -d shopping
 ```
+
+`shopping=#` 프롬프트가 보이면 접속된 상태입니다. (DBeaver·TablePlus 같은 GUI 도구로 접속할 때도 위 정보를 그대로 쓰면 됩니다)
 
 ## 5. 시드 테이블 생성
 
 테이블 6개(회원, 카테고리, 상품, 주문, 주문상세, 리뷰)와 샘플 데이터가 들어 있습니다.
 
-**방법 A. 파일 다운로드**
+**방법 A. 파일로 실행**
 
-[shopping.sql 다운로드](https://raw.githubusercontent.com/woogi-kang/drawdb-local-guide/main/seed/shopping.sql)를 받은 뒤, 받은 폴더에서 실행합니다.
+레포의 `seed/shopping.sql`이 컨테이너 안 `/seed`에 연결되어 있어서, psql에서 바로 실행할 수 있습니다.
 
-```bash
-docker cp shopping.sql drawdb-postgres:/shopping.sql
-docker exec drawdb-postgres psql -U shop -d shop -f /shopping.sql
+```sql
+\i /seed/shopping.sql
 ```
+
+> 레포를 클론하지 않고 파일만 받았다면 [shopping.sql 다운로드](https://raw.githubusercontent.com/woogi-kang/drawdb-local-guide/main/seed/shopping.sql) 후 `seed/` 폴더에 넣어 주세요.
 
 **방법 B. SQL 직접 입력**
 
-4단계의 `psql` 접속 화면이나 GUI 도구에 아래 SQL을 붙여넣습니다.
+psql 터미널에 아래 SQL을 붙여넣습니다.
 
 <details>
 <summary>shopping.sql 펼치기</summary>
@@ -174,11 +179,14 @@ INSERT INTO reviews (product_id, customer_id, rating, content) VALUES
 
 </details>
 
-확인:
+확인 (psql 터미널):
 
-```bash
-docker exec drawdb-postgres psql -U shop -d shop -c "\dt"
+```sql
+\dt
+SELECT * FROM products;
 ```
+
+`\q`로 psql을 종료합니다.
 
 ## 6. drawDB에 넣기
 

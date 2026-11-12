@@ -12,13 +12,14 @@ services:
     image: postgres:latest
     container_name: drawdb-postgres
     environment:
-      POSTGRES_USER: shop
-      POSTGRES_PASSWORD: shop
-      POSTGRES_DB: shop
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: admin1234
+      POSTGRES_DB: shopping
     ports:
-      - "15432:5432"
+      - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql
+      - ./seed:/seed:ro
 
 volumes:
   pgdata:
